@@ -155,16 +155,6 @@ GROQ_API_KEY=
 JWT_SECRET=
 ```
 
----
-
-# 🚀 Screenshots
-
-* Dashboard
-* Resume Analyzer
-* Resume Optimizer
-* Mock Interview
-* Job Recommendations
-
 
 
 ---
