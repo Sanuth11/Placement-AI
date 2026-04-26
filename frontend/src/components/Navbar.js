@@ -1,34 +1,27 @@
-{/* Navbar */}
-<div className="bg-white border-b px-8 py-4 flex justify-between items-center">
+import React from "react";
+import { Sparkles, UserCircle } from "lucide-react";
 
-  <h2 className="text-xl font-semibold text-gray-700">
-    Placement AI 🧠
-  </h2>
-
-  <div className="relative flex items-center gap-3">
-
-    <span className="text-gray-600">
-      Welcome {user?.name || "User"}
-    </span>
-
-    <div
-      onClick={() => setOpen(!open)}
-      className="w-9 h-9 rounded-full bg-indigo-500 cursor-pointer"
-    ></div>
-
-    {open && (
-      <div className="absolute right-0 top-12 bg-white shadow-lg rounded-lg w-40 py-2 border">
-
-        <button
-          onClick={logout}
-          className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-500"
-        >
-          Logout
-        </button>
-
+const Navbar = ({ user, onLogout }) => {
+  return (
+    <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex items-center gap-4">
+        <div className="flex h-14 w-14 items-center justify-center rounded-3xl bg-gradient-to-br from-indigo-500 to-violet-500 text-white shadow-lg shadow-indigo-500/30">
+          <Sparkles size={24} />
+        </div>
+        <div>
+          <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Placement AI</p>
+          <h2 className="text-lxl uppercase font-semibold text-white">Career Assistant</h2>
+        </div>
       </div>
-    )}
 
-  </div>
+      <div className="flex items-center gap-3">
+        <button onClick={onLogout} className="inline-flex items-center gap-2 rounded-full bg-indigo-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-400">
+          <UserCircle size={16} />
+          {user?.name || "User"}
+        </button>
+      </div>
+    </div>
+  );
+};
 
-</div>
+export default Navbar;

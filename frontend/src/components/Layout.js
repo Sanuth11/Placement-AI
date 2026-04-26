@@ -9,15 +9,12 @@ import {
   CheckCircle,
   Briefcase,
   History,
-  LogOut,
-  User
+  LogOut
 } from "lucide-react";
+import Navbar from "./Navbar";
 
 const Layout = ({ children }) => {
   const location = useLocation();
-  const [open, setOpen] = useState(false);
-
-  // Get user from localStorage
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   const logout = () => {
@@ -38,102 +35,52 @@ const Layout = ({ children }) => {
   ];
 
   return (
-    <div className="flex h-screen bg-gray-100">
-
-      {/* Sidebar */}
-      <div className="w-64 bg-white border-r shadow-sm">
-
-        {/* Logo */}
-        <div className="p-6 border-b">
-          <h1 className="text-2xl font-bold text-indigo-600">
-            Placement AI
-          </h1>
-          <p className="text-sm text-gray-400">
-            Career Intelligence Platform
-          </p>
-        </div>
-
-        {/* Menu */}
-        <div className="p-4 space-y-1">
-
-          {menu.map((item) => {
-            const Icon = item.icon;
-
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`flex items-center gap-3 p-3 rounded-lg transition 
-                ${
-                  location.pathname === item.path
-                    ? "bg-indigo-500 text-white shadow"
-                    : "hover:bg-gray-100 text-gray-700"
-                }`}
-              >
-                <Icon size={18} />
-                {item.name}
-              </Link>
-            );
-          })}
-
-        </div>
-
+    <div className="relative min-h-screen overflow-hidden bg-slate-950 text-slate-100">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-indigo-500/20 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full bg-violet-500/10 blur-3xl" />
+        <div className="absolute top-12 right-10 h-56 w-56 rounded-full bg-cyan-500/10 blur-3xl" />
       </div>
 
-      {/* Main */}
-      <div className="flex-1 flex flex-col">
-
-        {/* Navbar */}
-        <div className="bg-white border-b px-8 py-4 flex justify-between items-center">
-
-          <h2 className="text-xl font-semibold text-gray-700">
-            Placement AI 🧠
-          </h2>
-
-          {/* User Section */}
-          <div className="relative flex items-center gap-3">
-
-            <span className="text-gray-600 font-medium">
-              Welcome {user?.name || "User"}
-            </span>
-
-            <div
-              onClick={() => setOpen(!open)}
-              className="w-9 h-9 rounded-full bg-indigo-500 flex items-center justify-center text-white cursor-pointer"
-            >
-              <User size={18}/>
+      <div className="relative flex min-h-screen">
+        <aside className="hidden w-72 shrink-0 flex-col border-r border-white/10 bg-slate-950/95 px-5 py-8 lg:flex">
+          <div className="mb-8 px-1">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-3xl bg-indigo-500/15 px-4 py-2 text-sm font-semibold text-indigo-200">
+              <span className="h-2 w-2 rounded-full bg-indigo-400" />
+              Career AI Suite
             </div>
-
-            {/* Dropdown */}
-            {open && (
-              <div className="absolute right-0 top-12 bg-white shadow-lg rounded-lg w-44 py-2 border z-50">
-
-                <div className="px-4 py-2 text-sm text-gray-500 border-b">
-                  {user?.email}
-                </div>
-
-                <button
-                  onClick={logout}
-                  className="w-full flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-red-500"
-                >
-                  <LogOut size={16}/>
-                  Logout
-                </button>
-
-              </div>
-            )}
-
+            <h1 className="text-3xl font-bold tracking-tight text-white">Placement AI</h1>
+            <p className="mt-3 text-sm leading-6 text-slate-400">A next-gen workspace for resumes, interviews, and career growth.</p>
           </div>
 
-        </div>
+          <nav className="space-y-2">
+            {menu.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`flex items-center gap-3 rounded-3xl px-4 py-3 text-sm font-medium transition ${
+                    location.pathname === item.path
+                      ? "bg-gradient-to-r from-indigo-500 to-violet-500 text-white shadow-lg"
+                      : "text-slate-300 hover:bg-slate-900/80 hover:text-white"
+                  }`}
+                >
+                  <Icon size={18} />
+                  {item.name}
+                </Link>
+              );
+            })}
+          </nav>
+        </aside>
 
-        {/* Content */}
-        <div className="p-8 overflow-y-auto">
-          {children}
-        </div>
-
+        <main className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1600px]">
+            <Navbar user={user} onLogout={logout} />
+            <div className="mt-8">{children}</div>
+          </div>
+        </main>
       </div>
-
     </div>
   );
 };
