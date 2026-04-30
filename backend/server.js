@@ -14,9 +14,17 @@ const historyRoutes = require("./routes/history");
 
 
 
+
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://placement-ai-7hl1.onrender.com"
+  ],
+  credentials: true
+}));
+app.options("*", cors());
 app.use(express.json());
 app.use("/api/resume", resumeRoutes);
 app.use("/api/interview", interviewRoutes);
@@ -30,8 +38,13 @@ app.use("/api/history", historyRoutes);
 
 
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.error("Mongo Error:", err));
+  .then(() => {
+    console.log("✅ MongoDB Connected");
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB Error:", err.message);
+  });
+  console.log("ENV MONGO:", process.env.MONGO_URI);
 
 app.use("/api/auth", authRoutes);
 
