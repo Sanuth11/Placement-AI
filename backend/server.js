@@ -20,10 +20,14 @@ const app = express();
 // ✅ CORS FIX (VERY IMPORTANT)
 
 
+
+
 app.use(cors({
-  origin: "http://localhost:3000",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  origin: [
+    "http://localhost:3000",
+    "https://placement-ai-eight.vercel.app"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
 
