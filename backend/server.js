@@ -1,8 +1,10 @@
 require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
+// Routes
 const authRoutes = require("./routes/auth");
 const resumeRoutes = require("./routes/resume");
 const interviewRoutes = require("./routes/interview");
@@ -15,12 +17,9 @@ const historyRoutes = require("./routes/history");
 const app = express();
 
 
-// ✅ CORS FIX (IMPORTANT)
+// ✅ CORS FIX (VERY IMPORTANT)
 app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "https://placement-ai-7hl1.onrender.com"
-  ],
+  origin: true,   // allows all origins (fixes your error)
   credentials: true
 }));
 
@@ -40,21 +39,25 @@ app.use("/api/optimize", optimizeRoutes);
 app.use("/api/history", historyRoutes);
 
 
-// ✅ Root route
+// ✅ Root route (for testing)
 app.get("/", (req, res) => {
-  res.send("AI Career Copilot API Running 🚀");
+  res.send("🚀 Placement AI Backend Running");
 });
 
 
-// ✅ MongoDB connection
+// ✅ MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB Connected"))
-  .catch((err) => console.error("❌ MongoDB Error:", err.message));
+  .then(() => {
+    console.log("✅ MongoDB Connected");
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB Error:", err.message);
+  });
 
 
-// ✅ IMPORTANT: use dynamic port (Render fix)
+// ✅ PORT FIX (Render compatible)
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🔥 Server running on port ${PORT}`);
 });
