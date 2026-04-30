@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -8,8 +8,7 @@ import {
   Brain,
   CheckCircle,
   Briefcase,
-  History,
-  LogOut
+  History
 } from "lucide-react";
 import Navbar from "./Navbar";
 
