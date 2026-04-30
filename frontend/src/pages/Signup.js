@@ -18,9 +18,10 @@ const Signup = () => {
       alert("Account Created Successfully");
       navigate("/login");
     } catch (error) {
-      alert("Signup Failed");
-      setLoading(false);
-    }
+  console.log(error.response?.data || error.message);
+  alert(error.response?.data?.message || "Signup Failed");
+  setLoading(false);
+}
   };
 
   return (
