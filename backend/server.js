@@ -18,14 +18,17 @@ const app = express();
 
 
 // ✅ CORS FIX (VERY IMPORTANT)
-app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "https://placement-ai-7hl1.onrender.com"
-  ],
-  credentials: true
-}));
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
 
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
 // ✅ Middleware
 app.use(express.json());
 
