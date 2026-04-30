@@ -15,14 +15,9 @@ const historyRoutes = require("./routes/history");
 const app = express();
 
 // ✅ FIXED CORS
-app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "https://placement-ai-eight.vercel.app"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
+app.options("/*", (req, res) => {
+  res.sendStatus(200);
+});
 
 app.use(express.json());
 
