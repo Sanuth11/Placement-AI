@@ -3,6 +3,9 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
+const corsOptions = require("./config/corsConfig");
+
+// routes
 const authRoutes = require("./routes/auth");
 const resumeRoutes = require("./routes/resume");
 const interviewRoutes = require("./routes/interview");
@@ -14,14 +17,28 @@ const historyRoutes = require("./routes/history");
 
 const app = express();
 
-// ✅ FIXED CORS
-app.options("/*", (req, res) => {
-  res.sendStatus(200);
+
+// ✅ APPLY CORS (FIRST)
+app.use(cors(corsOptions));
+
+
+// ✅ HANDLE PREFLIGHT (NO CRASH VERSION)
+app.use((req, res, next) => {
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    return res.sendStatus(200);
+  }
+  next();
 });
 
+
+// ✅ BODY PARSER
 app.use(express.json());
 
-// routes
+
+// ✅ ROUTES
 app.use("/api/auth", authRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/interview", interviewRoutes);
@@ -31,19 +48,22 @@ app.use("/api/job", jobRoutes);
 app.use("/api/optimize", optimizeRoutes);
 app.use("/api/history", historyRoutes);
 
-// test route
+
+// ✅ TEST ROUTE
 app.get("/", (req, res) => {
   res.send("API running");
 });
 
-// DB
+
+// ✅ DB CONNECTION
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected"))
-  .catch(err => console.log(err));
+  .catch((err) => console.log("❌ DB Error:", err.message));
 
-// PORT (IMPORTANT for Render)
+
+// ✅ PORT (IMPORTANT FOR RENDER)
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
