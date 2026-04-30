@@ -22,16 +22,16 @@ const app = express();
 
 
 
+
+
 app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "https://placement-ai-eight.vercel.app"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-// ✅ Middleware
+app.options("*", cors());
+
 app.use(express.json());
 
 
