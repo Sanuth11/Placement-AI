@@ -27,9 +27,11 @@ app.use("/api/optimize", optimizeRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/history", historyRoutes);
 
-mongoose.connect("mongodb://127.0.0.1:27017/ai-career-copilot")
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
+
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.error("Mongo Error:", err));
 
 app.use("/api/auth", authRoutes);
 
