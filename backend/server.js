@@ -19,10 +19,12 @@ const app = express();
 
 // ✅ CORS FIX (VERY IMPORTANT)
 app.use(cors({
-  origin: true,   // allows all origins (fixes your error)
+  origin: [
+    "http://localhost:3000",
+    "https://placement-ai-7hl1.onrender.com"
+  ],
   credentials: true
 }));
-
 
 // ✅ Middleware
 app.use(express.json());
