@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/User");
+const { JWT_SECRET } = require("../config/jwtConfig");
 
 
 // SIGNUP
@@ -66,7 +67,7 @@ const loginHandler = async (req, res) => {
         message: "Invalid credentials"
       });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "7d" });
 
     res.json({
       token,

@@ -8,10 +8,16 @@ const Evaluate = () => {
   const [loading, setLoading] = useState(false);
 
   const handleEvaluate = async () => {
-    setLoading(true);
-    const res = await API.post("/evaluate", { question, answer });
-    setResult(res.data.result);
-    setLoading(false);
+    try {
+      setLoading(true);
+      const res = await API.post("/evaluate", { question, answer });
+      setResult(res.data.result || res.data.evaluation || "");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to evaluate answer");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

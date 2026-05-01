@@ -1,10 +1,11 @@
-const Groq = require("groq-sdk");
-
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY
-});
+const { getGroqClient } = require("./groqClient");
 
 const analyzeResume = async (resumeText) => {
+  const groq = getGroqClient();
+
+  if (!groq) {
+    return "AI analysis unavailable: GROQ_API_KEY is not configured";
+  }
 
   try {
 

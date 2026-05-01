@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const localBackendUrl = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
+
 const API = axios.create({
-  baseURL: "https://placement-ai-7hl1.onrender.com/api"
+  baseURL: localBackendUrl
 });
 
 API.interceptors.request.use((req) => {

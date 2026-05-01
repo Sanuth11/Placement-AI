@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const corsOptions = require("./config/corsConfig");
 
 const authRoutes = require("./routes/auth");
 const resumeRoutes = require("./routes/resume");
@@ -13,36 +14,6 @@ const optimizeRoutes = require("./routes/optimize");
 const historyRoutes = require("./routes/history");
 
 const app = express();
-
-const allowedOrigins = [
-  "https://placement-ai-eight.vercel.app",
-  "https://placement-ai-git-main-sanuths-projects-b65f89aa.vercel.app",
-  "https://placement-7ervovdna-sanuths-projects-b65f89aa.vercel.app"
-];
-
-const isLocalhostOrigin = (origin) =>
-  /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
-
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin) || isLocalhostOrigin(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"), false);
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: [
-    "Origin",
-    "X-Requested-With",
-    "Content-Type",
-    "Accept",
-    "Authorization"
-  ],
-  credentials: true,
-  optionsSuccessStatus: 200,
-  preflightContinue: false
-};
 
 app.use(cors(corsOptions));
 app.options(/^\/api\/.*$/, cors(corsOptions));
@@ -76,7 +47,9 @@ app.get("/", (req, res) => {
 
 
 // DB
-mongoose.connect(process.env.MONGO_URI)
+const mongoUri = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/placement-ai";
+
+mongoose.connect(mongoUri)
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 

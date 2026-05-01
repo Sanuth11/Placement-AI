@@ -9,6 +9,7 @@ router.post("/", async (req, res) => {
     const evaluation = await evaluateAnswer(question, answer);
 
     res.json({
+      result: evaluation,
       evaluation
     });
 

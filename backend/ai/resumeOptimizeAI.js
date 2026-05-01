@@ -1,10 +1,11 @@
-const Groq = require("groq-sdk");
-
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
+const { getGroqClient } = require("./groqClient");
 
 async function optimizeResume(resumeText, jobDescription) {
+  const groq = getGroqClient();
+
+  if (!groq) {
+    return "AI resume optimization unavailable: GROQ_API_KEY is not configured";
+  }
 
   const response = await groq.chat.completions.create({
     model: "llama-3.3-70b-versatile",

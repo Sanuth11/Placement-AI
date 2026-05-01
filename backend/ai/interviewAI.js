@@ -1,10 +1,11 @@
-const Groq = require("groq-sdk");
-
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY
-});
+const { getGroqClient } = require("./groqClient");
 
 async function generateInterviewQuestions(text) {
+  const groq = getGroqClient();
+
+  if (!groq) {
+    return "AI interview generation unavailable: GROQ_API_KEY is not configured";
+  }
 
   const response = await groq.chat.completions.create({
     messages: [

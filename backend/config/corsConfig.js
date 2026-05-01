@@ -1,18 +1,19 @@
-// config/corsConfig.js
-
 const allowedOrigins = [
-  "http://localhost:3000",
-  "https://placement-ai-eight.vercel.app"
+  "https://placement-ai-eight.vercel.app",
+  "https://placement-ai-git-main-sanuths-projects-b65f89aa.vercel.app",
+  "https://placement-7ervovdna-sanuths-projects-b65f89aa.vercel.app"
 ];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
+const isLocalhostOrigin = (origin) =>
+  /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
 
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin) || isLocalhostOrigin(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"), false);
     }
-    return callback(new Error("Not allowed by CORS"), false);
   },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: [
