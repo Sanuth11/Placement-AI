@@ -16,7 +16,6 @@ const historyRoutes = require("./routes/history");
 const app = express();
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
 
 app.use(express.json());
 
