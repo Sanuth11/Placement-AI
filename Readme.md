@@ -55,7 +55,12 @@ It provides resume analysis, interview preparation, job recommendations, and mor
 * Multi-user support
 
 ---
+## 🌐 Live Demo
 
+The application is deployed and accessible here:  
+🔗 (https://placement-ai-7bsc.vercel.app)
+
+---
 # 🛠 Tech Stack
 
 ## Frontend
