@@ -7,10 +7,8 @@ const User = require("../models/User");
 
 
 // SIGNUP
-router.post("/signup", async (req, res) => {
-
+const signupHandler = async (req, res) => {
   try {
-
     const { name, email, password } = req.body;
 
     const existingUser = await User.findOne({ email });
@@ -33,25 +31,21 @@ router.post("/signup", async (req, res) => {
     res.json({
       message: "Signup successful"
     });
-
   } catch (error) {
-
     console.log(error);
 
     res.status(500).json({
       message: "Server Error"
     });
-
   }
+};
 
-});
+router.post(["/signup", "/Signup"], signupHandler);
 
 
 // LOGIN
-router.post("/login", async (req, res) => {
-
+const loginHandler = async (req, res) => {
   try {
-
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
@@ -68,7 +62,7 @@ router.post("/login", async (req, res) => {
         message: "Invalid credentials"
       });
 
-    const token =jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 
     res.json({
       token,
@@ -77,17 +71,15 @@ router.post("/login", async (req, res) => {
         email: user.email
       }
     });
-
   } catch (error) {
-
     console.log(error);
 
     res.status(500).json({
       message: "Server Error"
     });
-
   }
+};
 
-});
+router.post(["/login", "/Login"], loginHandler);
 
 module.exports = router;
