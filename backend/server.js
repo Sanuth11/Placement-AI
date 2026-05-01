@@ -1,6 +1,8 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
+const corsOptions = require("./config/corsConfig");
 
 const authRoutes = require("./routes/auth");
 const resumeRoutes = require("./routes/resume");
@@ -13,20 +15,8 @@ const historyRoutes = require("./routes/history");
 
 const app = express();
 
-
-// ✅ FORCE CORS HEADERS (THIS FIXES YOUR ERROR 100%)
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "*");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
-
-  next();
-});
-
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 app.use(express.json());
 
