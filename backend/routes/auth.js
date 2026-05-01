@@ -40,6 +40,10 @@ const signupHandler = async (req, res) => {
   }
 };
 
+router.options(["/signup", "/Signup", "/login", "/Login"], (req, res) => {
+  res.sendStatus(200);
+});
+
 router.post(["/signup", "/Signup"], signupHandler);
 
 
